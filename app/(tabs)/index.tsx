@@ -2,8 +2,10 @@ import { Image, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import Feather from '@expo/vector-icons/Feather';
 import WelcomeScreen from '../../screens/WelcomeScreen';
+import { useRouter } from 'expo-router'; // Importando useRouter
 
 const HomeScreen = () => {
+  const router = useRouter(); // Criando a instância do router
   const [userName, setUserName] = useState<string | null>(null);
   const [userImage, setUserImage] = useState<string | null>(null);
 
@@ -25,18 +27,27 @@ const HomeScreen = () => {
 
       {/* Botões */}
       <View style={styles.buttonRow}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.push('/alunos')} // Navegando para Alunos
+        >
           <Feather name="database" size={24} color="black" />
           <Text style={styles.buttonTitle}>Gerencie</Text>
           <Text style={styles.buttonSubtitle}>Seus alunos</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.push('/agenda')} // Navegando para Agenda
+        >
           <Feather name="calendar" size={24} color="black" />
           <Text style={styles.buttonTitle}>Agende</Text>
           <Text style={styles.buttonSubtitle}>Suas mentorias</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={[styles.button, styles.largeButton]}>
+      <TouchableOpacity
+        style={[styles.button, styles.largeButton]}
+        onPress={() => router.push('/historico')} // Navegando para Histórico
+      >
         <Feather name="clock" size={24} color="black" />
         <Text style={styles.buttonTitle}>Revise</Text>
         <Text style={styles.buttonSubtitle}>As mentorias passadas</Text>
