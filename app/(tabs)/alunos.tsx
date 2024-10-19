@@ -1,36 +1,47 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import React, { useContext } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 import Feather from '@expo/vector-icons/Feather';
+import { useRouter } from 'expo-router';
+import { AlunosContext } from './AlunoContext';
 
-export function AlunosTab() {
+const AlunosTab = () => {
+  const router = useRouter();
+  const { alunos } = useContext(AlunosContext);
+
   return (
     <View style={styles.container}>
-      {/* Botões */}
-      <View style={styles.buttonRow}>
-        <TouchableOpacity style={styles.button}>
-          <Feather name="book" size={24} color="black" />
-          <Text style={styles.buttonTitle}>Cursos</Text>
-          <Text style={styles.buttonSubtitle}>Ver cursos</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <Feather name="message-square" size={24} color="black" />
-          <Text style={styles.buttonTitle}>Mensagens</Text>
-          <Text style={styles.buttonSubtitle}>Ver mensagens</Text>
-        </TouchableOpacity>
-      </View>
-      <TouchableOpacity style={[styles.button, styles.largeButton]}>
-        <Feather name="activity" size={24} color="black" />
-        <Text style={styles.buttonTitle}>Atividades</Text>
-        <Text style={styles.buttonSubtitle}>Ver atividades</Text>
+      <TouchableOpacity
+        style={[styles.button, styles.largeButton]}
+        onPress={() => router.push('/cadastrar-aluno')}
+      >
+        <Feather name="user-plus" size={24} color="black" />
+        <Text style={styles.buttonTitle}>Cadastrar Novo Aluno</Text>
+        <Text style={styles.buttonSubtitle}>Adicionar aluno ao sistema</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.button, styles.largeButton]}>
-        <Feather name="calendar" size={24} color="black" />
-        <Text style={styles.buttonTitle}>Agenda</Text>
-        <Text style={styles.buttonSubtitle}>Ver agenda</Text>
-      </TouchableOpacity>
+
+      <FlatList
+        data={alunos}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={[styles.button, styles.alunoItem]}
+            onPress={() => router.push(`/aluno/${item.id}`)}
+          >
+            <Text style={styles.alunoNome}>{item.nome}</Text>
+            <Text>{item.email}</Text>
+            <Text>{item.telefone}</Text>
+          </TouchableOpacity>
+        )}
+      />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -38,40 +49,15 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#fff',
   },
-  profileContainer: {
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    marginBottom: 8,
-  },
-  userName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  separator: {
-    height: 1,
-    backgroundColor: '#ccc',
-    marginVertical: 16,
-  },
-  buttonRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 16,
-  },
   button: {
     flex: 1,
     backgroundColor: '#f0f0f0',
     borderRadius: 8,
     padding: 16,
     alignItems: 'center',
-    marginHorizontal: 8,
+    marginVertical: 8,
   },
   largeButton: {
-    flex: 1,
     marginBottom: 16,
   },
   buttonTitle: {
@@ -81,6 +67,15 @@ const styles = StyleSheet.create({
   buttonSubtitle: {
     fontSize: 14,
     color: '#666',
+  },
+  alunoItem: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  alunoNome: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 
