@@ -4,6 +4,7 @@ import { AlunosProvider } from './AlunoContext';
 import { TabBarIcon } from '../../components/navigation/TabBarIcon';
 import { Colors } from '../../constants/Colors';
 import { useColorScheme } from 'react-native';
+import 'react-native-get-random-values';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
