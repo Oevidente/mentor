@@ -1,14 +1,24 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  Alert,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 import { useRouter } from 'expo-router';
 import { AlunosContext } from './AlunoContext';
+import { v4 as uuidv4 } from 'uuid';
 
 const CadastrarAluno = () => {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
   const router = useRouter();
-  const { adicionarAluno } = useContext(AlunosContext);
+  const { alunos, adicionarAluno, removerAluno } = useContext(AlunosContext);
 
   const handleSubmit = () => {
     if (!nome || !email || !telefone) {
@@ -16,9 +26,15 @@ const CadastrarAluno = () => {
       return;
     }
 
-    adicionarAluno({ nome, email, telefone });
+    const id = uuidv4(); // Generate a unique ID
+    adicionarAluno({ id, nome, email, telefone });
     Alert.alert('Aluno cadastrado com sucesso!');
     router.push('/alunos');
+  };
+
+  const handleRemove = (id: string) => {
+    removerAluno(id);
+    Alert.alert('Aluno removido com sucesso!');
   };
 
   return (
@@ -45,6 +61,22 @@ const CadastrarAluno = () => {
         keyboardType="phone-pad"
       />
       <Button title="Cadastrar" onPress={handleSubmit} />
+
+      <FlatList
+        data={alunos}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.alunoItem}>
+            <Text style={styles.alunoNome}>{item.nome}</Text>
+            <Text>{item.email}</Text>
+            <Text>
+              ({item.telefone.slice(0, 2)}) {item.telefone.slice(2, 7)}-
+              {item.telefone.slice(7)}
+            </Text>
+            <Button title="Remover" onPress={() => handleRemove(item.id)} />
+          </View>
+        )}
+      />
     </View>
   );
 };
@@ -64,9 +96,17 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: '#ccc',
     borderWidth: 1,
-    borderRadius: 4,
+    marginBottom: 16,
     paddingHorizontal: 8,
-    marginBottom: 12,
+  },
+  alunoItem: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  alunoNome: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 

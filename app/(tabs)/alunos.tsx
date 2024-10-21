@@ -20,9 +20,9 @@ const AlunosTab = () => {
         style={[styles.button, styles.largeButton]}
         onPress={() => router.push('/cadastrar-aluno')}
       >
-        <Feather name="user-plus" size={24} color="black" />
-        <Text style={styles.buttonTitle}>Cadastrar Novo Aluno</Text>
-        <Text style={styles.buttonSubtitle}>Adicionar aluno ao sistema</Text>
+        <Feather name="users" size={24} color="black" />
+        <Text style={styles.buttonTitle}>Gerenciar Alunos</Text>
+        <Text style={styles.buttonSubtitle}>Adicionar ou Remover aluno(s)</Text>
       </TouchableOpacity>
 
       <FlatList
@@ -35,7 +35,10 @@ const AlunosTab = () => {
           >
             <Text style={styles.alunoNome}>{item.nome}</Text>
             <Text>{item.email}</Text>
-            <Text>{item.telefone}</Text>
+            <Text>
+              ({item.telefone.slice(0, 2)}) {item.telefone.slice(2, 7)}-
+              {item.telefone.slice(7)}
+            </Text>
           </TouchableOpacity>
         )}
       />
@@ -55,7 +58,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 16,
     alignItems: 'center',
+    justifyContent: 'center',
     marginVertical: 8,
+    maxHeight: 114,
   },
   largeButton: {
     marginBottom: 16,
