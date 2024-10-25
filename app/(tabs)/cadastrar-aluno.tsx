@@ -121,7 +121,6 @@ import {
   StyleSheet,
   Alert,
   FlatList,
-  TouchableOpacity,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { AlunosContext } from './AlunoContext';

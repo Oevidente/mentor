@@ -71,6 +71,12 @@ export default function TabLayout() {
             tabBarButton: () => null, // Isso esconde a aba
           }}
         />
+        <Tabs.Screen
+          name="AlunoDetalhes"
+          options={{
+            tabBarButton: () => null, // Isso esconde a aba
+          }}
+        />
       </Tabs>
     </AlunosProvider>
   );
