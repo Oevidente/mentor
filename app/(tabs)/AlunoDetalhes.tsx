@@ -8,12 +8,13 @@ import {
   TouchableOpacity,
   Linking,
 } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AlunosContext } from './AlunoContext';
 
 const AlunoDetalhes = () => {
   const route = useRoute();
+  const navigation = useNavigation();
   const { id } = route.params || {}; // Verifica se params está definido antes de acessar id
   const { alunos } = useContext(AlunosContext);
   const [nota, setNota] = useState('');
@@ -88,6 +89,12 @@ const AlunoDetalhes = () => {
       />
       <View style={styles.buttonContainer}>
         <Button title="Salvar" onPress={saveNota} />
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button
+          title="Editar cadastro"
+          onPress={() => navigation.navigate('EditarAluno', { id })}
+        />
       </View>
     </View>
   );

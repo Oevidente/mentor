@@ -5,6 +5,7 @@ import { TabBarIcon } from '../../components/navigation/TabBarIcon';
 import { Colors } from '../../constants/Colors';
 import { useColorScheme } from 'react-native';
 import 'react-native-get-random-values';
+import Toast from 'react-native-toast-message';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -77,7 +78,14 @@ export default function TabLayout() {
             tabBarButton: () => null, // Isso esconde a aba
           }}
         />
+        <Tabs.Screen
+          name="EditarAluno"
+          options={{
+            tabBarButton: () => null, // Isso esconde a aba
+          }}
+        />
       </Tabs>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
     </AlunosProvider>
   );
 }

@@ -31,7 +31,7 @@ interface Aluno {
 
 interface AlunosContextProps {
   alunos: Aluno[];
-  adicionarAluno: (aluno: Aluno) => void;
+  adicionarOuAtualizarAluno: (aluno: Aluno) => void;
   removerAluno: (id: string) => void;
 }
 
@@ -51,12 +51,22 @@ const AlunosProvider = ({ children }: { children: ReactNode }) => {
     fetchStoredAlunos();
   }, []);
 
-  const adicionarAluno = async (aluno: Aluno) => {
-    const newAluno = { ...aluno, id: uuid.v4() as string };
-    const newAlunos = [...alunos, newAluno];
-    setAlunos(newAlunos);
-    await storeData('alunos', JSON.stringify(newAlunos));
-    console.log('Aluno adicionado:', newAluno);
+  const adicionarOuAtualizarAluno = async (aluno: Aluno) => {
+    setAlunos((prevAlunos) => {
+      const alunoIndex = prevAlunos.findIndex((a) => a.id === aluno.id);
+      let newAlunos;
+      if (alunoIndex !== -1) {
+        // Atualiza o aluno existente
+        newAlunos = [...prevAlunos];
+        newAlunos[alunoIndex] = aluno;
+      } else {
+        // Adiciona um novo aluno
+        const newAluno = { ...aluno, id: uuid.v4() as string };
+        newAlunos = [...prevAlunos, newAluno];
+      }
+      storeData('alunos', JSON.stringify(newAlunos));
+      return newAlunos;
+    });
   };
 
   const removerAluno = async (id: string) => {
@@ -67,7 +77,9 @@ const AlunosProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AlunosContext.Provider value={{ alunos, adicionarAluno, removerAluno }}>
+    <AlunosContext.Provider
+      value={{ alunos, adicionarOuAtualizarAluno, removerAluno }}
+    >
       {children}
     </AlunosContext.Provider>
   );
