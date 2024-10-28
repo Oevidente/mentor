@@ -1,11 +1,15 @@
 import { Tabs } from 'expo-router';
-import React from 'react';
+import React, { forwardRef } from 'react'; // Import forwardRef
 import { AlunosProvider } from './AlunoContext';
 import { TabBarIcon } from '../../components/navigation/TabBarIcon';
 import { Colors } from '../../constants/Colors';
 import { useColorScheme } from 'react-native';
 import 'react-native-get-random-values';
 import Toast from 'react-native-toast-message';
+
+const ForwardedToast = forwardRef((props, ref) => (
+  <Toast {...props} ref={ref} />
+));
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -85,7 +89,7 @@ export default function TabLayout() {
           }}
         />
       </Tabs>
-      <Toast ref={(ref) => Toast.setRef(ref)} />
+      <Toast />
     </AlunosProvider>
   );
 }

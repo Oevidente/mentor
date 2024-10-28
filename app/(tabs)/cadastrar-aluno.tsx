@@ -17,7 +17,8 @@ const CadastrarAluno = () => {
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
   const router = useRouter();
-  const { alunos, adicionarAluno, removerAluno } = useContext(AlunosContext);
+  const { alunos, adicionarOuAtualizarAluno, removerAluno } =
+    useContext(AlunosContext);
 
   const handleSubmit = () => {
     if (!nome || !email || !telefone) {
@@ -26,7 +27,7 @@ const CadastrarAluno = () => {
     }
 
     const id = uuidv4(); // Generate a unique ID
-    adicionarAluno({ id, nome, email, telefone });
+    adicionarOuAtualizarAluno({ id, nome, email, telefone });
     Alert.alert('Aluno cadastrado com sucesso!');
     router.push('/alunos');
   };
