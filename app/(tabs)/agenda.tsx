@@ -69,6 +69,7 @@ function AgendaTab() {
       aluno: alunoSelecionado,
       data: dataAula,
       hora: horaAula,
+      cumprida: false,
     };
 
     setAulasAgendadas((prevAulas) => {
@@ -80,7 +81,7 @@ function AgendaTab() {
         const dataHoraB = new Date(
           `${b.data.slice(4)}-${b.data.slice(2, 4)}-${b.data.slice(0, 2)}T${b.hora.slice(0, 2)}:${b.hora.slice(2)}`,
         );
-        return dataHoraB - dataHoraA; // Ordena do mais recente para o mais antigo
+        return dataHoraB - dataHoraA;
       });
     });
 
@@ -102,8 +103,22 @@ function AgendaTab() {
         const dataHoraB = new Date(
           `${b.data.slice(4)}-${b.data.slice(2, 4)}-${b.data.slice(0, 2)}T${b.hora.slice(0, 2)}:${b.hora.slice(2)}`,
         );
-        return dataHoraB - dataHoraA; // Ordena do mais recente para o mais antigo
+        return dataHoraB - dataHoraA;
       });
+    });
+  };
+
+  const handleMarcarComoCumprida = (id) => {
+    setAulasAgendadas((prevAulas) => {
+      const novasAulas = prevAulas.map((aula) => {
+        if (aula.id === id) {
+          return { ...aula, cumprida: !aula.cumprida };
+        }
+        return aula;
+      });
+      // Atualiza o AsyncStorage sempre que uma aula é marcada como cumprida
+      AsyncStorage.setItem('aulasAgendadas', JSON.stringify(novasAulas));
+      return novasAulas;
     });
   };
 
@@ -129,12 +144,26 @@ function AgendaTab() {
       <Text>
         {formatarData(item.data)} às {formatarHora(item.hora)}
       </Text>
-      <TouchableOpacity
-        onPress={() => handleExcluirAula(item.id)}
-        style={styles.deleteButton}
-      >
-        <Icon name="trash-outline" size={24} color="#ff4d4d" />
-      </TouchableOpacity>
+      <View style={styles.actions}>
+        <TouchableOpacity
+          onPress={() => handleMarcarComoCumprida(item.id)}
+          style={styles.markButton}
+        >
+          <Icon
+            name={
+              item.cumprida ? 'checkmark-circle' : 'checkmark-circle-outline'
+            }
+            size={24}
+            color={item.cumprida ? 'green' : '#000'}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => handleExcluirAula(item.id)}
+          style={styles.deleteButton}
+        >
+          <Icon name="trash-outline" size={24} color="#ff4d4d" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 
@@ -215,6 +244,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 8,
+  },
+  actions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  markButton: {
+    padding: 8,
   },
   deleteButton: {
     padding: 8,
