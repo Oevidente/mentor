@@ -10,7 +10,9 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { AlunosContext } from './AlunoContext';
+import { TouchableOpacity } from 'react-native';
 import { v4 as uuidv4 } from 'uuid';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const CadastrarAluno = () => {
   const [nome, setNome] = useState('');
@@ -60,8 +62,11 @@ const CadastrarAluno = () => {
         onChangeText={setTelefone}
         keyboardType="phone-pad"
       />
+
       <View style={styles.buttonContainer}>
-        <Button title="Cadastrar" onPress={handleSubmit} />
+        <TouchableOpacity style={styles.enterButton} onPress={handleSubmit}>
+          <Text style={styles.enterButtonText}>Cadastrar</Text>
+        </TouchableOpacity>
       </View>
 
       <FlatList
@@ -86,7 +91,12 @@ const CadastrarAluno = () => {
                 {item.telefone.slice(7)}
               </Text>
               <View style={styles.removeButtonContainer}>
-                <Button title="Remover" onPress={() => handleRemove(item.id)} />
+                <TouchableOpacity
+                  onPress={() => handleRemove(item.id)}
+                  style={styles.deleteButton}
+                >
+                  <Icon name="trash-outline" size={24} color="#ff4d4d" />
+                </TouchableOpacity>
               </View>
             </View>
           );
@@ -97,6 +107,18 @@ const CadastrarAluno = () => {
 };
 
 const styles = StyleSheet.create({
+  enterButton: {
+    backgroundColor: '#5AC5A8',
+    borderRadius: 16,
+    padding: 10,
+    alignItems: 'center',
+    marginVertical: 8,
+  },
+  enterButtonText: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
   container: {
     flex: 1,
     padding: 16,
@@ -119,6 +141,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   alunoItem: {
+    alignItems: 'center',
     padding: 16,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',

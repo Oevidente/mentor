@@ -13,6 +13,7 @@ import { Picker } from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AlunosContext } from './AlunoContext';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 
 function AgendaTab() {
   const { alunos } = useContext(AlunosContext);
@@ -138,6 +139,38 @@ function AgendaTab() {
     );
   }
 
+  const showDatePicker = () => {
+    DateTimePickerAndroid.open({
+      value: new Date(),
+      onChange: (event, selectedDate) => {
+        if (selectedDate) {
+          const formattedDate = selectedDate
+            .toLocaleDateString('pt-BR')
+            .replace(/\//g, '');
+          setDataAula(formattedDate);
+        }
+      },
+      mode: 'date',
+      is24Hour: true,
+    });
+  };
+
+  const showTimePicker = () => {
+    DateTimePickerAndroid.open({
+      value: new Date(),
+      onChange: (event, selectedTime) => {
+        if (selectedTime) {
+          const formattedTime = selectedTime
+            .toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+            .replace(':', '');
+          setHoraAula(formattedTime);
+        }
+      },
+      mode: 'time',
+      is24Hour: true,
+    });
+  };
+
   const renderItem = ({ item }) => (
     <View style={[styles.button, styles.aulaItem]}>
       <Text style={styles.alunoNome}>{item.aluno}</Text>
@@ -180,30 +213,61 @@ function AgendaTab() {
           <Picker.Item key={aluno.id} label={aluno.nome} value={aluno.nome} />
         ))}
       </Picker>
-      <TextInput
-        style={styles.input}
-        placeholder="Data (DDMMAAAA sem '/')"
-        value={dataAula}
-        onChangeText={setDataAula}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Hora (HHMM sem ':')"
-        value={horaAula}
-        onChangeText={setHoraAula}
-      />
-      <Button title="Agendar" onPress={handleAgendarAula} />
+
+      <Text style={styles.selectedDateTime}>
+        {dataAula && `Data selecionada: ${formatarData(dataAula)}`}
+      </Text>
+      <TouchableOpacity style={styles.selectButton} onPress={showDatePicker}>
+        <Text style={styles.buttonText}>Selecionar Data</Text>
+      </TouchableOpacity>
+      <Text style={styles.selectedDateTime}>
+        {horaAula && `Hora selecionada: ${formatarHora(horaAula)}`}
+      </Text>
+      <TouchableOpacity style={styles.selectButton} onPress={showTimePicker}>
+        <Text style={styles.buttonText}>Selecionar Hora</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.enterButton} onPress={handleAgendarAula}>
+        <Text style={styles.enterButtonText}>Agendar</Text>
+      </TouchableOpacity>
       <Text style={styles.subtitle}>Aulas Agendadas</Text>
       <FlatList
         data={aulasAgendadas}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
+        style={styles.flatList}
       />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  selectedDateTime: {
+    fontSize: 20,
+    padding: 4,
+  },
+  enterButton: {
+    backgroundColor: '#5AC5A8',
+    borderRadius: 16,
+    padding: 10,
+    alignItems: 'center',
+    marginVertical: 8,
+  },
+  enterButtonText: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  selectButton: {
+    backgroundColor: '#5AC5A8',
+    borderRadius: 16,
+    padding: 10,
+    alignItems: 'center',
+    marginVertical: 8,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
   container: {
     flex: 1,
     padding: 16,
@@ -236,8 +300,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     backgroundColor: '#f0f0f0',
     borderRadius: 8,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
     alignItems: 'center',
   },
   alunoNome: {
@@ -248,6 +312,7 @@ const styles = StyleSheet.create({
   actions: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 8,
   },
   markButton: {
     padding: 8,
@@ -265,6 +330,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 24,
     marginBottom: 16,
+  },
+  flatList: {
+    marginTop: 16,
   },
 });
 
