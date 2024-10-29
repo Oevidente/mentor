@@ -1,18 +1,30 @@
 import { Tabs } from 'expo-router';
-import React, { forwardRef } from 'react'; // Import forwardRef
+import React, { forwardRef, useState, useEffect } from 'react'; // Import forwardRef, useState, useEffect
 import { AlunosProvider } from './AlunoContext';
 import { TabBarIcon } from '../../components/navigation/TabBarIcon';
 import { Colors } from '../../constants/Colors';
-import { useColorScheme } from 'react-native';
+import { useColorScheme, ActivityIndicator } from 'react-native';
 import 'react-native-get-random-values';
 import Toast from 'react-native-toast-message';
-
-const ForwardedToast = forwardRef((props, ref) => (
-  <Toast {...props} ref={ref} />
-));
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // Simulate fetching data
+      await AsyncStorage.getItem('someData');
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <ActivityIndicator size="large" color="#0000ff" />;
+  }
 
   return (
     <AlunosProvider>

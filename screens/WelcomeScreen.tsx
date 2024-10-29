@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const WelcomeScreen = ({
   onUserSubmit,
@@ -18,8 +19,10 @@ const WelcomeScreen = ({
   const [name, setName] = useState('');
   const [imageUri, setImageUri] = useState<string | null>(null);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (name.trim() && imageUri) {
+      await AsyncStorage.setItem('userName', name);
+      await AsyncStorage.setItem('userImage', imageUri);
       onUserSubmit(name, imageUri);
     }
   };

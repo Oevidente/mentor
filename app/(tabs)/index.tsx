@@ -1,18 +1,45 @@
-import { Image, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import {
+  Image,
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
+import React, { useState, useEffect } from 'react';
 import Feather from '@expo/vector-icons/Feather';
 import WelcomeScreen from '../../screens/WelcomeScreen';
-import { useRouter } from 'expo-router'; // Importando useRouter
+import { useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = () => {
-  const router = useRouter(); // Criando a instância do router
+  const router = useRouter();
   const [userName, setUserName] = useState<string | null>(null);
   const [userImage, setUserImage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const storedUserName = await AsyncStorage.getItem('userName');
+      const storedUserImage = await AsyncStorage.getItem('userImage');
+      if (storedUserName && storedUserImage) {
+        setUserName(storedUserName);
+        setUserImage(storedUserImage);
+      }
+      setLoading(false);
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleUserSubmit = (name: string, imageUri: string) => {
     setUserName(name);
     setUserImage(imageUri);
   };
+
+  if (loading) {
+    return <ActivityIndicator size="large" color="#0000ff" />;
+  }
 
   return userName && userImage ? (
     <View style={styles.container}>
@@ -29,7 +56,7 @@ const HomeScreen = () => {
       <View style={styles.buttonRow}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => router.push('/alunos')} // Navegando para Alunos
+          onPress={() => router.push('/alunos')}
         >
           <Feather name="database" size={24} color="black" />
           <Text style={styles.buttonTitle}>Gerencie</Text>
@@ -37,7 +64,7 @@ const HomeScreen = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => router.push('/agenda')} // Navegando para Agenda
+          onPress={() => router.push('/agenda')}
         >
           <Feather name="calendar" size={24} color="black" />
           <Text style={styles.buttonTitle}>Agende</Text>
@@ -45,18 +72,16 @@ const HomeScreen = () => {
         </TouchableOpacity>
       </View>
       <TouchableOpacity
-        style={[styles.button, styles.largeButton]}
-        onPress={() => router.push('/historico')} // Navegando para Histórico
+        style={styles.button}
+        onPress={() => router.push('/historico')}
       >
         <Feather name="clock" size={24} color="black" />
         <Text style={styles.buttonTitle}>Revise</Text>
         <Text style={styles.buttonSubtitle}>As mentorias passadas</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.button, styles.largeButton]}>
-        <Image
-          source={{ uri: 'https://example.com/icon4.png' }}
-          style={styles.icon}
-        />
+      <TouchableOpacity style={styles.button}>
+        <Feather name="bell" size={24} color="black" />
+
         <Text style={styles.buttonTitle}>Próxima mentoria!</Text>
         <Text style={styles.buttonSubtitle}>Dia X - com fulano</Text>
       </TouchableOpacity>
@@ -71,6 +96,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: '#fff',
+    gap: 16,
   },
   profileContainer: {
     alignItems: 'center',
@@ -94,19 +120,16 @@ const styles = StyleSheet.create({
   buttonRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    maxHeight: 95,
   },
   button: {
-    flex: 1,
     backgroundColor: '#f0f0f0',
     borderRadius: 8,
     padding: 16,
     alignItems: 'center',
-    marginHorizontal: 8,
-  },
-  largeButton: {
     flex: 1,
-    marginBottom: 16,
+    maxHeight: 95,
+    marginHorizontal: 8,
   },
   icon: {
     width: 40,
@@ -118,7 +141,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   buttonSubtitle: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#666',
   },
 });
