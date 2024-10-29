@@ -77,9 +77,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   title: {
+    marginTop: 16,
+
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 24,
+    color: '#1E262C', // Updated color
   },
   aulaItem: {
     padding: 16,
@@ -90,6 +93,7 @@ const styles = StyleSheet.create({
   alunoNome: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: '#1E262C', // Updated color
   },
 });
 

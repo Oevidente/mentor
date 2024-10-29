@@ -88,13 +88,17 @@ const AlunoDetalhes = () => {
         multiline
       />
       <View style={styles.buttonContainer}>
-        <Button title="Salvar" onPress={saveNota} />
+        <TouchableOpacity style={styles.button} onPress={saveNota}>
+          <Text style={styles.buttonText}>Salvar</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.buttonContainer}>
-        <Button
-          title="Editar cadastro"
+        <TouchableOpacity
+          style={styles.button}
           onPress={() => navigation.navigate('EditarAluno', { id })}
-        />
+        >
+          <Text style={styles.buttonText}>Editar cadastro</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -110,20 +114,24 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
+    marginTop: 16,
   },
   label: {
     fontSize: 16,
     marginBottom: 8,
   },
   textInput: {
-    height: 100,
+    height: 400,
     borderColor: '#ccc',
+    backgroundColor: '#eeeeee89',
     borderWidth: 1,
     padding: 8,
     marginTop: 8,
     textAlignVertical: 'top',
     borderRadius: 8,
     marginBottom: 16,
+    color: '#203534', // Updated color
+    fontSize: 16,
   },
   whatsappButton: {
     backgroundColor: '#25D366',
@@ -140,6 +148,18 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginTop: 16,
+  },
+  button: {
+    backgroundColor: '#5AC5A8',
+    borderRadius: 16,
+    padding: 10,
+    alignItems: 'center',
+    marginVertical: 8,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: 'bold',
   },
 });
 

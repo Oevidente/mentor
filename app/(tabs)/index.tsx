@@ -79,7 +79,7 @@ const HomeScreen = () => {
         <Text style={styles.buttonTitle}>Revise</Text>
         <Text style={styles.buttonSubtitle}>As mentorias passadas</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.buttonNext}>
         <Feather name="bell" size={24} color="black" />
 
         <Text style={styles.buttonTitle}>Próxima mentoria!</Text>
@@ -100,9 +100,9 @@ const styles = StyleSheet.create({
   },
   profileContainer: {
     alignItems: 'center',
-    marginBottom: 16,
   },
   profileImage: {
+    marginTop: 32,
     width: 100,
     height: 100,
     borderRadius: 50,
@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: '#1E262C',
   },
   separator: {
     height: 1,
@@ -131,6 +132,15 @@ const styles = StyleSheet.create({
     maxHeight: 95,
     marginHorizontal: 8,
   },
+  buttonNext: {
+    backgroundColor: '#5AC5A8',
+    borderRadius: 8,
+    padding: 16,
+    alignItems: 'center',
+    flex: 1,
+    maxHeight: 95,
+    marginHorizontal: 8,
+  },
   icon: {
     width: 40,
     height: 40,
@@ -139,10 +149,12 @@ const styles = StyleSheet.create({
   buttonTitle: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#1E262C',
   },
   buttonSubtitle: {
     fontSize: 12,
     color: '#666',
+    color: '#1E262C',
   },
 });
 

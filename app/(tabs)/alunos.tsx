@@ -26,8 +26,8 @@ const AlunosTab = () => {
         onPress={() => router.push(`/AlunoDetalhes?id=${item.id}`)}
       >
         <Text style={styles.alunoNome}>{item.nome}</Text>
-        <Text>{item.email}</Text>
-        <Text>
+        <Text style={styles.alunoInfo}>{item.email}</Text>
+        <Text style={styles.alunoInfo}>
           ({item.telefone.slice(0, 2)}) {item.telefone.slice(2, 7)}-
           {item.telefone.slice(7)}
         </Text>
@@ -38,10 +38,10 @@ const AlunosTab = () => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        style={[styles.button, styles.largeButton]}
+        style={[styles.button, styles.buttonCadastro]}
         onPress={() => router.push('/cadastrar-aluno')}
       >
-        <Feather name="users" size={24} color="black" />
+        <Feather name="users" size={24} color="#1E262C" />
         <Text style={styles.buttonTitle}>Gerenciar Alunos</Text>
         <Text style={styles.buttonSubtitle}>Adicionar ou Remover aluno(s)</Text>
       </TouchableOpacity>
@@ -56,10 +56,24 @@ const AlunosTab = () => {
 };
 
 const styles = StyleSheet.create({
+  buttonCadastro: {
+    flex: 1,
+    backgroundColor: '#5AC5A8',
+    borderRadius: 8,
+    padding: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 8,
+    maxHeight: 114,
+  },
   container: {
     flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
     padding: 16,
     backgroundColor: '#fff',
+    height: '100%',
+    paddingVertical: 32,
   },
   button: {
     flex: 1,
@@ -77,10 +91,12 @@ const styles = StyleSheet.create({
   buttonTitle: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#1E262C',
   },
   buttonSubtitle: {
     fontSize: 14,
-    color: '#666',
+    color: '#203534',
+    fontWeight: '500',
   },
   alunoItem: {
     padding: 16,
@@ -88,6 +104,11 @@ const styles = StyleSheet.create({
   alunoNome: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: '#1E262C',
+  },
+  alunoInfo: {
+    color: '#203534',
+    fontWeight: '500',
   },
 });
 

@@ -128,14 +128,18 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 24,
+    color: '#1E262C', // Updated color
   },
   input: {
+    fontSize: 16,
     height: 40,
     borderColor: '#ccc',
     borderWidth: 1,
     marginBottom: 24,
     paddingHorizontal: 8,
     borderRadius: 8,
+    color: '#203534', // Updated color
+    fontWeight: 'bold',
   },
   buttonContainer: {
     marginBottom: 24,
@@ -150,6 +154,7 @@ const styles = StyleSheet.create({
   alunoNome: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: '#1E262C', // Updated color
     marginBottom: 8,
   },
   removeButtonContainer: {
