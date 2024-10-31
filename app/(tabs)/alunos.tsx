@@ -35,23 +35,26 @@ const AlunosTab = () => {
     );
   };
 
-  return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        style={[styles.button, styles.buttonCadastro]}
-        onPress={() => router.push('/cadastrar-aluno')}
-      >
-        <Feather name="users" size={24} color="#1E262C" />
-        <Text style={styles.buttonTitle}>Gerenciar Alunos</Text>
-        <Text style={styles.buttonSubtitle}>Adicionar ou Remover aluno(s)</Text>
-      </TouchableOpacity>
+  const renderHeader = () => (
+    <TouchableOpacity
+      style={[styles.button, styles.buttonCadastro]}
+      onPress={() => router.push('/cadastrar-aluno')}
+    >
+      <Feather name="users" size={24} color="#1E262C" />
+      <Text style={styles.buttonTitle}>Gerenciar Alunos</Text>
+      <Text style={styles.buttonSubtitle}>Adicionar ou Remover aluno(s)</Text>
+    </TouchableOpacity>
+  );
 
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-      />
-    </View>
+  return (
+    <FlatList
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
+      data={data}
+      keyExtractor={(item) => item.id}
+      renderItem={renderItem}
+      ListHeaderComponent={renderHeader}
+    />
   );
 };
 
@@ -64,16 +67,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 8,
-    maxHeight: 114,
+    minHeight: 114,
   },
   container: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    padding: 16,
     backgroundColor: '#fff',
     height: '100%',
     paddingVertical: 32,
+  },
+  contentContainer: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    padding: 16,
   },
   button: {
     flex: 1,
@@ -99,6 +104,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   alunoItem: {
+    minHeight: 114,
     padding: 16,
   },
   alunoNome: {
