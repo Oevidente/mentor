@@ -6,6 +6,7 @@ import {
   TextInput,
   Button,
   TouchableOpacity,
+  ScrollView,
   Linking,
 } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
@@ -68,7 +69,7 @@ const AlunoDetalhes = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.title}>{aluno.nome}</Text>
       <Text style={styles.label}>Email: {aluno.email}</Text>
       <TouchableOpacity
@@ -100,7 +101,7 @@ const AlunoDetalhes = () => {
           <Text style={styles.buttonText}>Editar cadastro</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
