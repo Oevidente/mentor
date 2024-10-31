@@ -93,7 +93,9 @@ const HomeScreen = () => {
     >
       {/* Foto de Perfil e Nome do Usuário */}
       <View style={styles.profileContainer}>
-        <Image source={{ uri: userImage }} style={styles.profileImage} />
+        <TouchableOpacity onPress={() => setUserName(null)}>
+          <Image source={{ uri: userImage }} style={styles.profileImage} />
+        </TouchableOpacity>
         <Text style={styles.userName}>{userName}</Text>
       </View>
 
